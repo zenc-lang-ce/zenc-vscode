@@ -6,6 +6,7 @@ tsconfig.json
 package-lock.json
 .gitignore
 vsc-extension-quickstart.md
-**.map
-node_modules/typescript/**
-node_modules/@types/**
+**/*.map
+node_modules/**
+out/**
+.github/**
