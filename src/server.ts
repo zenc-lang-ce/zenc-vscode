@@ -39,7 +39,7 @@ function isCompiler(executable: string): boolean {
 }
 
 /**
- * How to start the language server, given the `zenc.serverPath` setting:
+ * How to start the language server, given the `zenc-lang-ce.serverPath` setting:
  * - empty: `zc-lsp` from PATH, or `zc lsp` with a compiler that predates zc-lsp;
  * - the compiler (`zc`), as the setting meant before: the `zc-lsp` next to it, or `zc lsp`;
  * - anything else: that executable, which is the language server itself.

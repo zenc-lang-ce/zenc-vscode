@@ -12,7 +12,7 @@ This extension provides language support for the [Zen C](https://github.com/zenc
 
 ## Requirements
 
-You must have the Zen C compiler installed. The extension starts its language server, `zc-lsp`, which `make install` puts next to `zc`: either have it in your PATH or set `zenc.serverPath`.
+You must have the Zen C compiler installed. The extension starts its language server, `zc-lsp`, which `make install` puts next to `zc`: either have it in your PATH or set `zenc-lang-ce.serverPath`. If it is in neither place, the extension asks where it is and saves the answer in that setting.
 
 ## Installation
 
@@ -41,14 +41,14 @@ Install via Open VSX (VSCodium, Cursor and other editors): [Zen C - CE](https://
 
 This extension contributes the following settings:
 
-*   `zenc.serverPath`: Path to the language server (`zc-lsp`). Empty by default: `zc-lsp` is looked up in your PATH. A path to the `zc` compiler also works: the `zc-lsp` next to it is used, or `zc lsp` with compilers that predate `zc-lsp`.
-*   `zenc.server.verbose`: Start the language server with `--verbose`, so it logs what it does to the "Zen C Language Server" output. Default: `false`.
-*   `zenc.trace.server`: Trace the messages between VS Code and the language server (`off`, `messages` or `verbose`). Default: `off`.
-*   `zenc.server.enable`: Start the language server. When disabled, syntax highlighting and editing support remain. Default: `true`.
+*   `zenc-lang-ce.serverPath`: Path to the language server (`zc-lsp`). Empty by default: `zc-lsp` is looked up in your PATH. A path to the `zc` compiler also works: the `zc-lsp` next to it is used, or `zc lsp` with compilers that predate `zc-lsp`.
+*   `zenc-lang-ce.server.verbose`: Start the language server with `--verbose`, so it logs what it does to the "Zen C Language Server" output. Default: `false`.
+*   `zenc-lang-ce.trace.server`: Trace the messages between VS Code and the language server (`off`, `messages` or `verbose`). Default: `off`.
+*   `zenc-lang-ce.server.enable`: Start the language server. When disabled, syntax highlighting and editing support remain. Default: `true`.
 
 ## Commands
 
-*   **Zen C: Restart Language Server**: restarts the language server, e.g. after rebuilding it. It also restarts by itself when `zenc.serverPath`, `zenc.server.verbose` or `zenc.server.enable` changes.
+*   **Zen C: Restart Language Server**: restarts the language server, e.g. after rebuilding it. It also restarts by itself when `zenc-lang-ce.serverPath`, `zenc-lang-ce.server.verbose` or `zenc-lang-ce.server.enable` changes.
 *   **Zen C: Show Language Server Output**: opens the language server's output, where its logs and traces go.
 
 ## Publishing

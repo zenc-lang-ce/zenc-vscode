@@ -38,18 +38,18 @@
     "grammars": [
       {
         "language": "zenc",
-        "scopeName": "source.zenc",
+        "scopeName": "source.zenc-lang-ce",
         "path": "./syntaxes/zenc.tmLanguage.json"
       }
     ],
     "commands": [
       {
-        "command": "zenc.restartServer",
+        "command": "zenc-lang-ce.restartServer",
         "title": "Restart Language Server",
         "category": "Zen C"
       },
       {
-        "command": "zenc.showServerOutput",
+        "command": "zenc-lang-ce.showServerOutput",
         "title": "Show Language Server Output",
         "category": "Zen C"
       }
@@ -58,20 +58,20 @@
       "type": "object",
       "title": "Zen C",
       "properties": {
-        "zenc.serverPath": {
+        "zenc-lang-ce.serverPath": {
           "type": [
             "string",
             "null"
           ],
           "default": "",
-          "description": "Path to the Zen C language server (zc-lsp). When empty, zc-lsp is looked up in PATH. A path to the zc compiler also works: the zc-lsp next to it is used, or `zc lsp` with compilers that predate zc-lsp."
+          "description": "Path to the Zen C language server (zc-lsp). When empty, zc-lsp is looked up in PATH, and if it is not there the extension asks where it is. A path to the zc compiler also works: the zc-lsp next to it is used, or `zc lsp` with compilers that predate zc-lsp."
         },
-        "zenc.server.verbose": {
+        "zenc-lang-ce.server.verbose": {
           "type": "boolean",
           "default": false,
           "description": "Start the language server with --verbose, so it logs what it does to the \"Zen C Language Server\" output."
         },
-        "zenc.trace.server": {
+        "zenc-lang-ce.trace.server": {
           "type": "string",
           "enum": [
             "off",
@@ -81,7 +81,7 @@
           "default": "off",
           "description": "Traces the messages between VS Code and the language server in the \"Zen C Language Server\" output."
         },
-        "zenc.server.enable": {
+        "zenc-lang-ce.server.enable": {
           "type": "boolean",
           "default": true,
           "description": "Start the Zen C language server. When disabled, syntax highlighting and editing support remain."

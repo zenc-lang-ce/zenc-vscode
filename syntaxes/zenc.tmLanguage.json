@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "zenc",
-    "scopeName": "source.zenc",
+    "scopeName": "source.zenc-lang-ce",
     "patterns": [
         {
             "include": "#directives"
