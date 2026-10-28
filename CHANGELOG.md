@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+- The package includes this changelog, so the Marketplace, Open VSX and VS Code show it.
+
 ## 0.0.5
 
 **Breaking:** settings and commands now use the `zenc-lang-ce` prefix instead of `zenc`, which another Zen C extension also uses. A `zenc.serverPath` set with 0.0.4 is not read any more: set it again as `zenc-lang-ce.serverPath`, or pick the server when the extension asks for it.
