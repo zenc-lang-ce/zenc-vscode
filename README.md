@@ -1,6 +1,6 @@
 # Zen C for VS Code
 
-This extension provides language support for the [Zen C](https://github.com/zenc-lang/zenc) programming language.
+This extension provides language support for the [Zen C](https://github.com/zenc-lang-ce/zenc) programming language.
 
 ## Features
 
@@ -17,13 +17,15 @@ You must have the Zen C compiler installed. The extension starts its language se
 ## Installation
 
 ### From Marketplace
-Install via VS Code Marketplace: [Zen C](https://marketplace.visualstudio.com/items?itemName=Z-libs.zenc)
+Install via VS Code Marketplace: [Zen C - CE](https://marketplace.visualstudio.com/items?itemName=zenc-lang-ce.zenc)
+
+Install via Open VSX (VSCodium, Cursor and other editors): [Zen C - CE](https://open-vsx.org/extension/zenc-lang-ce/zenc)
 
 ### From Source
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/zenc-lang/vscode-zenc.git
-    cd vscode-zenc
+    git clone https://github.com/zenc-lang-ce/zenc-vscode.git
+    cd zenc-vscode
     ```
 2.  Install dependencies:
     ```bash

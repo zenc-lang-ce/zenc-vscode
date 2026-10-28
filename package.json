@@ -1,12 +1,12 @@
 {
   "name": "zenc",
-  "displayName": "Zen C",
+  "displayName": "Zen C - CE",
   "description": "Language support for Zen C",
-  "version": "0.0.3",
-  "publisher": "z-libs",
+  "version": "0.0.4",
+  "publisher": "zenc-lang-ce",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zenc-lang/vscode-zenc"
+    "url": "https://github.com/zenc-lang-ce/zenc-vscode"
   },
   "license": "MIT",
   "engines": {
