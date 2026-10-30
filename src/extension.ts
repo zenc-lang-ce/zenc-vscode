@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import {
     LanguageClient,
@@ -7,22 +9,29 @@ import {
 } from 'vscode-languageclient/node';
 import { resolveServerCommand } from './server';
 
+// Prefix of the settings and commands, and the client id (which names `<id>.trace.server`).
+// It is not `zenc`, which another Zen C extension uses: each one evolves on its own.
+const SECTION = 'zenc-lang-ce';
+
 let client: LanguageClient | undefined;
 // Shared by every client, so that a restart does not add another output.
 let outputChannel: vscode.OutputChannel | undefined;
 
 // Settings are read here, so a new client picks up the current ones.
 function createClient(): LanguageClient | undefined {
-    const config = vscode.workspace.getConfiguration('zenc');
+    const config = vscode.workspace.getConfiguration(SECTION);
     // Without the server, highlighting and editing support still work.
     if (!config.get<boolean>('server.enable', true)) {
         return undefined;
     }
-    const server = resolveServerCommand(config.get<string | null>('serverPath'));
+    const serverPath = config.get<string | null>('serverPath');
+    const server = resolveServerCommand(serverPath);
     if (!server) {
-        vscode.window.showErrorMessage(
-            'Zen C: language server not found. Install zc-lsp, which comes with the Zen C compiler, or set "zenc.serverPath".'
-        );
+        void askForServerPath('Zen C: the language server (zc-lsp) is not in PATH.');
+        return undefined;
+    }
+    if (path.isAbsolute(server.command) && !fs.existsSync(server.command)) {
+        void askForServerPath(`Zen C: the language server set in ${SECTION}.serverPath does not exist: ${server.command}`);
         return undefined;
     }
 
@@ -58,11 +67,42 @@ function createClient(): LanguageClient | undefined {
     outputChannel?.appendLine(`Starting ${[run.command, ...(run.args ?? [])].join(' ')}`);
 
     return new LanguageClient(
-        'zenc',
+        SECTION,
         'Zen C Language Server',
         serverOptions,
         clientOptions
     );
+}
+
+// The language server does not come with the extension, so it can be anywhere: ask where.
+async function askForServerPath(problem: string): Promise<void> {
+    const select = 'Select zc-lsp…';
+    const settings = 'Open Settings';
+    const choice = await vscode.window.showWarningMessage(problem, select, settings);
+    if (choice === settings) {
+        await vscode.commands.executeCommand('workbench.action.openSettings', `${SECTION}.serverPath`);
+        return;
+    }
+    if (choice !== select) {
+        return;
+    }
+    const picked = await vscode.window.showOpenDialog({
+        canSelectMany: false,
+        openLabel: 'Use as Zen C language server',
+        title: 'Select zc-lsp, or the zc compiler next to it'
+    });
+    if (!picked || picked.length === 0) {
+        return;
+    }
+    // Where the setting is: a workspace value would hide a new user one.
+    const config = vscode.workspace.getConfiguration(SECTION);
+    const inspected = config.inspect<string | null>('serverPath');
+    const target =
+        inspected?.workspaceValue !== undefined
+            ? vscode.ConfigurationTarget.Workspace
+            : vscode.ConfigurationTarget.Global;
+    // The configuration change restarts the server.
+    await config.update('serverPath', picked[0].fsPath, target);
 }
 
 async function restartServer(): Promise<void> {
@@ -81,15 +121,15 @@ export function activate(context: vscode.ExtensionContext) {
     outputChannel = vscode.window.createOutputChannel('Zen C Language Server');
     context.subscriptions.push(
         outputChannel,
-        vscode.commands.registerCommand('zenc.restartServer', restartServer),
-        vscode.commands.registerCommand('zenc.showServerOutput', () => {
+        vscode.commands.registerCommand(`${SECTION}.restartServer`, restartServer),
+        vscode.commands.registerCommand(`${SECTION}.showServerOutput`, () => {
             client?.outputChannel.show(true);
         }),
         vscode.workspace.onDidChangeConfiguration((event) => {
             if (
-                event.affectsConfiguration('zenc.serverPath') ||
-                event.affectsConfiguration('zenc.server.verbose') ||
-                event.affectsConfiguration('zenc.server.enable')
+                event.affectsConfiguration(`${SECTION}.serverPath`) ||
+                event.affectsConfiguration(`${SECTION}.server.verbose`) ||
+                event.affectsConfiguration(`${SECTION}.server.enable`)
             ) {
                 void restartServer();
             }
