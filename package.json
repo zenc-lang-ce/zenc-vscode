@@ -76,7 +76,14 @@
           "enum": [
             "off",
             "messages",
+            "compact",
             "verbose"
+          ],
+          "enumDescriptions": [
+            "No trace.",
+            "One line per message: its method, id and, for a response, how long it took.",
+            "Each message and its JSON, in one line.",
+            "Each message and its JSON, indented over several lines."
           ],
           "default": "off",
           "description": "Traces the messages between VS Code and the language server in the \"Zen C Language Server\" output."

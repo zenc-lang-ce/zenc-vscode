@@ -18,6 +18,20 @@ let client: LanguageClient | undefined;
 // Shared by every client, so that a restart does not add another output.
 let outputChannel: vscode.OutputChannel | undefined;
 
+// The client ends the JSON of a traced message with blank lines (`Params: …\n\n`), which
+// double the length of the trace: without them, a message is its line and its JSON.
+function withoutTrailingBlankLines(channel: vscode.OutputChannel): vscode.OutputChannel {
+    return new Proxy(channel, {
+        get(target, property) {
+            if (property === 'appendLine') {
+                return (value: string) => target.appendLine(value.replace(/\n+$/, ''));
+            }
+            const member = Reflect.get(target, property, target);
+            return typeof member === 'function' ? member.bind(target) : member;
+        }
+    });
+}
+
 // Settings are read here, so a new client picks up the current ones.
 function createClient(): LanguageClient | undefined {
     const config = vscode.workspace.getConfiguration(SECTION);
@@ -61,7 +75,8 @@ function createClient(): LanguageClient | undefined {
     const clientOptions: LanguageClientOptions = {
         // Register the server for Zen C documents
         documentSelector: [{ scheme: 'file', language: 'zenc' }],
-        outputChannel
+        outputChannel,
+        traceOutputChannel: outputChannel && withoutTrailingBlankLines(outputChannel)
     };
 
     // Which server runs, in the output where its own messages go.
