@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.0.7
 
 - Each `test` block of an open file has a run button in the gutter, and the Testing view lists them. Tests run with `zc run`, which runs every test of the file; a failed `assert` or `expect` is shown on its line.
+- `zenc-lang-ce.trace.server` gains `compact`, which traces each message and its JSON in one line. With any level, the trace no longer ends each message with blank lines.
 
 ## 0.0.6
 
