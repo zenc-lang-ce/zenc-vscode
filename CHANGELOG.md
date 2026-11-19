@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Each `test` block of an open file has a run button in the gutter, and the Testing view lists them. Tests run with `zc run`, which runs every test of the file; a failed `assert` or `expect` is shown on its line.
+
 ## 0.0.6
 
 - The package includes this changelog, so the Marketplace, Open VSX and VS Code show it.

@@ -68,3 +68,25 @@ export function resolveServerCommand(
 
     return { command: configured, args: [] };
 }
+
+/**
+ * The `zc` compiler that goes with the language server of the `zenc-lang-ce.serverPath`
+ * setting: the setting itself when it names the compiler, the `zc` next to the language
+ * server it names, or `zc` from PATH. Returns undefined when nothing is found.
+ */
+export function resolveCompilerCommand(
+    serverPath: string | null | undefined,
+    env: NodeJS.ProcessEnv = process.env
+): string | undefined {
+    const configured = (serverPath ?? '').trim();
+    if (configured && isCompiler(configured)) {
+        return configured;
+    }
+    if (configured) {
+        const sibling = path.join(path.dirname(configured), 'zc' + EXECUTABLE_SUFFIX);
+        if (isFile(sibling)) {
+            return sibling;
+        }
+    }
+    return findInPath('zc', env);
+}

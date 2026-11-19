@@ -8,6 +8,7 @@ import {
     Executable
 } from 'vscode-languageclient/node';
 import { resolveServerCommand } from './server';
+import { registerTestController } from './testController';
 
 // Prefix of the settings and commands, and the client id (which names `<id>.trace.server`).
 // It is not `zenc`, which another Zen C extension uses: each one evolves on its own.
@@ -135,6 +136,9 @@ export function activate(context: vscode.ExtensionContext) {
             }
         })
     );
+
+    // Tests run with the compiler, so they work without the language server.
+    registerTestController(context, SECTION);
 
     // Start the client. This will also launch the server
     client = createClient();

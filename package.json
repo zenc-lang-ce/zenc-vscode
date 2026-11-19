@@ -95,7 +95,7 @@
     "compile": "tsc -p ./",
     "watch": "npm run bundle -- --watch",
     "package": "vsce package",
-    "test": "npm run compile && node out/test/server.test.js"
+    "test": "npm run compile && node out/test/server.test.js && node out/test/testBlocks.test.js && node out/test/testOutput.test.js"
   },
   "devDependencies": {
     "@types/node": "^16.11.7",

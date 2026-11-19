@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { resolveServerCommand } from '../server';
+import { resolveCompilerCommand, resolveServerCommand } from '../server';
 
 // A temporary directory holding empty files with the given executable names.
 function binDirectory(...names: string[]): string {
@@ -51,5 +51,15 @@ assert.deepStrictEqual(resolveServerCommand('/opt/zenc/bin/zc-lsp', { PATH: '' }
     command: '/opt/zenc/bin/zc-lsp',
     args: [],
 });
+
+// The compiler: the setting when it names it, the zc next to the server, else zc from PATH.
+assert.strictEqual(resolveCompilerCommand('zc', { PATH: '' }), 'zc');
+assert.strictEqual(resolveCompilerCommand(path.join(both, 'zc-lsp'), { PATH: '' }), path.join(both, 'zc'));
+assert.strictEqual(
+    resolveCompilerCommand('/opt/zenc/bin/zc-lsp', { PATH: compilerOnly }),
+    path.join(compilerOnly, 'zc')
+);
+assert.strictEqual(resolveCompilerCommand('', { PATH: both }), path.join(both, 'zc'));
+assert.strictEqual(resolveCompilerCommand(null, { PATH: nothing }), undefined);
 
 console.log('server.test: all cases passed');

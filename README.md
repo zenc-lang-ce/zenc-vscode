@@ -9,6 +9,7 @@ This extension provides language support for the [Zen C](https://github.com/zenc
 -   **Hover**: Documentation and type information on hover.
 -   **Go to Definition**: Navigate to symbol definitions.
 -   **Diagnostics**: Real-time error reporting and type checking.
+-   **Tests**: A run button next to each `test` block of the open files, which the Testing view also lists. A failed `assert` or `expect` is shown on its line. Tests run with `zc run`, using the `zc` next to the language server or the one in your PATH; it runs every test of the file, so running one test updates them all.
 
 ## Requirements
 
